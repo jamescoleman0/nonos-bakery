@@ -587,10 +587,10 @@
       <div class="slide"><img src="cake8.jpg" alt="Pastel Tres Leches"></div>
       <div class="slide"><img src="cake9.jpg" alt="Pastel Tres Leches"></div>
       <div class="slide"><img src="cake10.jpg" alt="Pastel Tres Leches"></div>
-      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="moveSlide(-1)">
+      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="document.getElementById('cakeSlideshow').moveSlide(-1)">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="moveSlide(1)">
+      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="document.getElementById('cakeSlideshow').moveSlide(1)">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -617,10 +617,10 @@
       <div class="slide"><img src="dcake11.jpg" alt="Pastel Dominicano"></div>
       <div class="slide"><img src="dcake12.jpg" alt="Pastel Dominicano"></div>
       <div class="slide"><img src="dcake13.jpg" alt="Pastel Dominicano"></div>
-      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="moveDSlide(-1)">
+      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="document.getElementById('dcakeSlideshow').moveSlide(-1)">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="moveDSlide(1)">
+      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="document.getElementById('dcakeSlideshow').moveSlide(1)">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -642,10 +642,10 @@
       <div class="slide"><img src="flan6.jpg" alt="Flan"></div>
       <div class="slide"><img src="flan7.jpg" alt="Flan"></div>
       <div class="slide"><img src="flan8.jpg" alt="Flan"></div>
-      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="moveFSlide(-1)">
+      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="document.getElementById('flanSlideshow').moveSlide(-1)">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="moveFSlide(1)">
+      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="document.getElementById('flanSlideshow').moveSlide(1)">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -677,10 +677,10 @@
       <div class="slide"><img src="special4.jpg" alt="Mesas Dulces, Bodas y Personalizados"></div>
       <div class="slide"><img src="special5.jpg" alt="Mesas Dulces, Bodas y Personalizados"></div>
       <div class="slide"><img src="special6.jpg" alt="Mesas Dulces, Bodas y Personalizados"></div>
-      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="moveSSlide(-1)">
+      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="document.getElementById('specialSlideshow').moveSlide(-1)">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="moveSSlide(1)">
+      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="document.getElementById('specialSlideshow').moveSlide(1)">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -721,10 +721,10 @@
       <div class="slide"><img src="occ25.jpg" alt="Pasteles y Postres para Toda Ocasión"></div>
       <div class="slide"><img src="occ26.jpg" alt="Pasteles y Postres para Toda Ocasión"></div>
       <div class="slide"><img src="occ27.jpg" alt="Pasteles y Postres para Toda Ocasión"></div>
-      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="moveOSlide(-1)">
+      <button class="slide-btn slide-prev" aria-label="Anterior" onclick="document.getElementById('occSlideshow').moveSlide(-1)">
         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="moveOSlide(1)">
+      <button class="slide-btn slide-next" aria-label="Siguiente" onclick="document.getElementById('occSlideshow').moveSlide(1)">
         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
@@ -792,171 +792,48 @@
 </footer>
 
 <script>
-  let current = 0;
-  const slides = document.querySelectorAll('.slide');
-  const dotsWrap = document.getElementById('slideDots');
-  const counter = document.getElementById('slideCounter');
-  const total = slides.length;
+  function makeSlideshow(slideshowId, dotsId, counterId, interval, label) {
+    const el = document.getElementById(slideshowId);
+    if (!el) return;
+    const slides = el.querySelectorAll('.slide');
+    const dotsWrap = document.getElementById(dotsId);
+    const counter = document.getElementById(counterId);
+    const total = slides.length;
+    let current = 0;
 
-  slides.forEach((_,i) => {
-    const d = document.createElement('button');
-    d.className = 'slide-dot' + (i===0?' active':'');
-    d.setAttribute('aria-label','Ir a la foto '+(i+1));
-    d.onclick = () => goTo(i);
-    dotsWrap.appendChild(d);
-  });
+    slides.forEach((_,i) => {
+      const d = document.createElement('button');
+      d.className = 'slide-dot' + (i===0?' active':'');
+      d.setAttribute('aria-label', label + ' ' + (i+1));
+      d.onclick = () => goTo(i);
+      dotsWrap.appendChild(d);
+    });
 
-  function goTo(n){
-    slides[current].classList.remove('active');
-    dotsWrap.children[current].classList.remove('active');
-    current = (n + total) % total;
-    slides[current].classList.add('active');
-    dotsWrap.children[current].classList.add('active');
-    counter.textContent = (current+1) + ' / ' + total;
+    function goTo(n){
+      slides[current].classList.remove('active');
+      dotsWrap.children[current].classList.remove('active');
+      current = (n + total) % total;
+      slides[current].classList.add('active');
+      dotsWrap.children[current].classList.add('active');
+      counter.textContent = (current+1) + ' / ' + total;
+    }
+
+    el.moveSlide = function(dir){ goTo(current + dir); };
+    setInterval(() => goTo(current + 1), interval);
+
+    let touchStartX = 0;
+    el.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX, {passive:true});
+    el.addEventListener('touchend', e => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if(Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+    });
   }
-  function moveSlide(dir){ goTo(current + dir); }
 
-  setInterval(() => moveSlide(1), 4000);
-
-  let touchStartX = 0;
-  const ss = document.getElementById('cakeSlideshow');
-  ss.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX, {passive:true});
-  ss.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if(Math.abs(diff) > 40) moveSlide(diff > 0 ? 1 : -1);
-  });
-  // Dominican Cake slideshow
-  let dCurrent = 0;
-  const dSlides = document.querySelectorAll('#dcakeSlideshow .slide');
-  const dDotsWrap = document.getElementById('dSlideDots');
-  const dCounter = document.getElementById('dSlideCounter');
-  const dTotal = dSlides.length;
-
-  dSlides.forEach((_,i) => {
-    const d = document.createElement('button');
-    d.className = 'slide-dot' + (i===0?' active':'');
-    d.setAttribute('aria-label','Ir a la foto '+(i+1));
-    d.onclick = () => dGoTo(i);
-    dDotsWrap.appendChild(d);
-  });
-
-  function dGoTo(n){
-    dSlides[dCurrent].classList.remove('active');
-    dDotsWrap.children[dCurrent].classList.remove('active');
-    dCurrent = (n + dTotal) % dTotal;
-    dSlides[dCurrent].classList.add('active');
-    dDotsWrap.children[dCurrent].classList.add('active');
-    dCounter.textContent = (dCurrent+1) + ' / ' + dTotal;
-  }
-  function moveDSlide(dir){ dGoTo(dCurrent + dir); }
-  setInterval(() => moveDSlide(1), 4500);
-
-  const dss = document.getElementById('dcakeSlideshow');
-  let dTouchStartX = 0;
-  dss.addEventListener('touchstart', e => dTouchStartX = e.touches[0].clientX, {passive:true});
-  dss.addEventListener('touchend', e => {
-    const diff = dTouchStartX - e.changedTouches[0].clientX;
-    if(Math.abs(diff) > 40) moveDSlide(diff > 0 ? 1 : -1);
-  });
-  // Flan slideshow
-  let fCurrent = 0;
-  const fSlides = document.querySelectorAll('#flanSlideshow .slide');
-  const fDotsWrap = document.getElementById('fSlideDots');
-  const fCounter = document.getElementById('fSlideCounter');
-  const fTotal = fSlides.length;
-
-  fSlides.forEach((_,i) => {
-    const d = document.createElement('button');
-    d.className = 'slide-dot' + (i===0?' active':'');
-    d.setAttribute('aria-label','Ir a la foto '+(i+1));
-    d.onclick = () => fGoTo(i);
-    fDotsWrap.appendChild(d);
-  });
-
-  function fGoTo(n){
-    fSlides[fCurrent].classList.remove('active');
-    fDotsWrap.children[fCurrent].classList.remove('active');
-    fCurrent = (n + fTotal) % fTotal;
-    fSlides[fCurrent].classList.add('active');
-    fDotsWrap.children[fCurrent].classList.add('active');
-    fCounter.textContent = (fCurrent+1) + ' / ' + fTotal;
-  }
-  function moveFSlide(dir){ fGoTo(fCurrent + dir); }
-  setInterval(() => moveFSlide(1), 5000);
-
-  const fss = document.getElementById('flanSlideshow');
-  let fTouchStartX = 0;
-  fss.addEventListener('touchstart', e => fTouchStartX = e.touches[0].clientX, {passive:true});
-  fss.addEventListener('touchend', e => {
-    const diff = fTouchStartX - e.changedTouches[0].clientX;
-    if(Math.abs(diff) > 40) moveFSlide(diff > 0 ? 1 : -1);
-  });
-  // Specials slideshow
-  let sCurrent = 0;
-  const sSlides = document.querySelectorAll('#specialSlideshow .slide');
-  const sDotsWrap = document.getElementById('sSlideDots');
-  const sCounter = document.getElementById('sSlideCounter');
-  const sTotal = sSlides.length;
-
-  sSlides.forEach((_,i) => {
-    const d = document.createElement('button');
-    d.className = 'slide-dot' + (i===0?' active':'');
-    d.setAttribute('aria-label','Ir a la foto '+(i+1));
-    d.onclick = () => sGoTo(i);
-    sDotsWrap.appendChild(d);
-  });
-
-  function sGoTo(n){
-    sSlides[sCurrent].classList.remove('active');
-    sDotsWrap.children[sCurrent].classList.remove('active');
-    sCurrent = (n + sTotal) % sTotal;
-    sSlides[sCurrent].classList.add('active');
-    sDotsWrap.children[sCurrent].classList.add('active');
-    sCounter.textContent = (sCurrent+1) + ' / ' + sTotal;
-  }
-  function moveSSlide(dir){ sGoTo(sCurrent + dir); }
-  setInterval(() => moveSSlide(1), 5500);
-
-  const sss = document.getElementById('specialSlideshow');
-  let sTouchStartX = 0;
-  sss.addEventListener('touchstart', e => sTouchStartX = e.touches[0].clientX, {passive:true});
-  sss.addEventListener('touchend', e => {
-    const diff = sTouchStartX - e.changedTouches[0].clientX;
-    if(Math.abs(diff) > 40) moveSSlide(diff > 0 ? 1 : -1);
-  });
-  // Occasions slideshow
-  let oCurrent = 0;
-  const oSlides = document.querySelectorAll('#occSlideshow .slide');
-  const oDotsWrap = document.getElementById('oSlideDots');
-  const oCounter = document.getElementById('oSlideCounter');
-  const oTotal = oSlides.length;
-
-  oSlides.forEach((_,i) => {
-    const d = document.createElement('button');
-    d.className = 'slide-dot' + (i===0?' active':'');
-    d.setAttribute('aria-label','Ir a la foto '+(i+1));
-    d.onclick = () => oGoTo(i);
-    oDotsWrap.appendChild(d);
-  });
-
-  function oGoTo(n){
-    oSlides[oCurrent].classList.remove('active');
-    oDotsWrap.children[oCurrent].classList.remove('active');
-    oCurrent = (n + oTotal) % oTotal;
-    oSlides[oCurrent].classList.add('active');
-    oDotsWrap.children[oCurrent].classList.add('active');
-    oCounter.textContent = (oCurrent+1) + ' / ' + oTotal;
-  }
-  function moveOSlide(dir){ oGoTo(oCurrent + dir); }
-  setInterval(() => moveOSlide(1), 5000);
-
-  const oss = document.getElementById('occSlideshow');
-  let oTouchStartX = 0;
-  oss.addEventListener('touchstart', e => oTouchStartX = e.touches[0].clientX, {passive:true});
-  oss.addEventListener('touchend', e => {
-    const diff = oTouchStartX - e.changedTouches[0].clientX;
-    if(Math.abs(diff) > 40) moveOSlide(diff > 0 ? 1 : -1);
-  });
+  makeSlideshow('cakeSlideshow',    'slideDots',   'slideCounter',  4000, 'Ir a la foto');
+  makeSlideshow('dcakeSlideshow',   'dSlideDots',  'dSlideCounter', 4500, 'Ir a la foto');
+  makeSlideshow('flanSlideshow',    'fSlideDots',  'fSlideCounter', 5000, 'Ir a la foto');
+  makeSlideshow('specialSlideshow', 'sSlideDots',  'sSlideCounter', 5500, 'Ir a la foto');
+  makeSlideshow('occSlideshow',     'oSlideDots',  'oSlideCounter', 5000, 'Ir a la foto');
 </script>
 </body>
 </html>
